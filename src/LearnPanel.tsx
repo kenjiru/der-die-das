@@ -5,25 +5,72 @@ interface LearnPanelProps {
 }
 
 const styles = {
-    scroll: RX.Styles.createScrollViewStyle({
-        alignSelf: 'stretch',
-        backgroundColor: '#f5fcff'
-    }),
     container: RX.Styles.createViewStyle({
-        padding: 16,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 16
     }),
-    titleText: RX.Styles.createTextStyle({
-        fontSize: 16,
+
+    textContainer: {
+        marginBottom: 8
+    },
+    wordText: RX.Styles.createTextStyle({
+        fontSize: 24,
+        fontWeight: 'bold',
         textAlign: 'center',
         marginTop: 12,
         color: 'black'
     }),
+    translationText: RX.Styles.createTextStyle({
+        fontSize: 16,
+        fontWeight: "500",
+        textAlign: 'center',
+        marginTop: 12,
+        color: 'black'
+    }),
+
+    feedbackContainer: RX.Styles.createTextStyle({
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 8,
+        marginBottom: 8
+    }),
+    resBox: RX.Styles.createTextStyle({
+        width: 16,
+        height: 16,
+        margin: 2
+    }),
+    hitBox: RX.Styles.createTextStyle({
+        backgroundColor: '#008000'
+    }),
+    missBox: RX.Styles.createTextStyle({
+        backgroundColor: '#ee5555'
+    }),
+
+    middleContainer: RX.Styles.createViewStyle({
+        flex: 2
+    }),
+
+    buttonContainer: RX.Styles.createViewStyle({
+        padding: 16
+    }),
     roundButton: RX.Styles.createViewStyle({
-        margin: 16,
-        borderRadius: 16,
-        backgroundColor: '#7d88a9'
+        borderRadius: 4,
+        marginTop: 4,
+        padding: 4,
+        backgroundColor: '#7d88a9',
+        alignItems: 'center'
+    }),
+    derButton: RX.Styles.createViewStyle({
+        backgroundColor: '#337ab7'
+    }),
+    dieButton: RX.Styles.createViewStyle({
+        backgroundColor: '#5cb85c'
+    }),
+    dasButton: RX.Styles.createViewStyle({
+        backgroundColor: '#f0ad4e'
     }),
     buttonText: RX.Styles.createTextStyle({
         fontSize: 16,
@@ -36,19 +83,44 @@ const styles = {
 class LearnPanel extends RX.Component<LearnPanelProps> {
     render() {
         return (
-            <RX.ScrollView style={styles.scroll}>
-                <RX.View style={styles.container}>
-                    <RX.Button style={styles.roundButton} onPress={this.handleBack}>
+            <RX.View style={styles.container}>
+                <RX.View style={styles.textContainer}>
+                    <RX.Text style={styles.wordText}>
+                        ●●● Augenblick
+                    </RX.Text>
+
+                    <RX.Text style={styles.translationText}>
+                        moment
+                    </RX.Text>
+
+                    <RX.View style={styles.feedbackContainer}>
+                        <RX.View style={[styles.resBox, styles.hitBox]}></RX.View>
+                        <RX.View style={[styles.resBox, styles.hitBox]}></RX.View>
+                        <RX.View style={[styles.resBox, styles.missBox]}></RX.View>
+                    </RX.View>
+                </RX.View>
+
+                <RX.View style={styles.middleContainer}>
+                </RX.View>
+
+                <RX.View style={styles.buttonContainer}>
+                    <RX.Button style={[styles.roundButton, styles.derButton]} onPress={this.handleBack}>
                         <RX.Text style={styles.buttonText}>
-                            Go Back
+                            der
                         </RX.Text>
                     </RX.Button>
-
-                    <RX.Text style={styles.titleText}>
-                        Learn Panel
-                    </RX.Text>
+                    <RX.Button style={[styles.roundButton, styles.dieButton]} onPress={this.handleBack}>
+                        <RX.Text style={styles.buttonText}>
+                            die
+                        </RX.Text>
+                    </RX.Button>
+                    <RX.Button style={[styles.roundButton, styles.dasButton]} onPress={this.handleBack}>
+                        <RX.Text style={styles.buttonText}>
+                            das
+                        </RX.Text>
+                    </RX.Button>
                 </RX.View>
-            </RX.ScrollView>
+            </RX.View>
         );
     }
 
