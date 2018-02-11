@@ -1,16 +1,14 @@
+import { Provider } from "mobx-react/native";
 import * as RX from 'reactxp';
-/*
-* This file demonstrates a basic ReactXP app.
-*/
-// This example uses ExperimentalNavigation on iOS and Android
 import Navigator, { NavigatorDelegateSelector as DelegateSelector, Types } from 'reactxp-navigation';
 import LearnPanel from './LearnPanel';
 
 import MainPanel from './MainPanel';
+import practiceStore from "./model/PracticeStore";
 
 enum NavigationRouteId {
     MainPanel,
-    SecondPanel
+    LearnPanel
 }
 
 const styles = {
@@ -25,19 +23,21 @@ class App extends RX.Component<{}, null> {
 
     componentDidMount() {
         this.navigator.immediatelyResetRouteStack([{
-            routeId: NavigationRouteId.MainPanel,
+            routeId: NavigationRouteId.LearnPanel,
             sceneConfigType: Types.NavigatorSceneConfigType.Fade
         }]);
     }
 
     render() {
         return (
-            <Navigator
-                ref={this.handleNavigatorRef}
-                renderScene={this.renderScene}
-                cardStyle={styles.navCardStyle}
-                delegateSelector={DelegateSelector}
-            />
+            <Provider practiceStore={practiceStore}>
+                <Navigator
+                    ref={this.handleNavigatorRef}
+                    renderScene={this.renderScene}
+                    cardStyle={styles.navCardStyle}
+                    delegateSelector={DelegateSelector}
+                />
+            </Provider>
         );
     }
 
@@ -50,7 +50,7 @@ class App extends RX.Component<{}, null> {
             case NavigationRouteId.MainPanel:
                 return <MainPanel onPressNavigate={this.handlePressNavigate}/>;
 
-            case NavigationRouteId.SecondPanel:
+            case NavigationRouteId.LearnPanel:
                 return <LearnPanel onNavigateBack={this.handlePressBack}/>;
         }
 
@@ -59,7 +59,7 @@ class App extends RX.Component<{}, null> {
 
     private handlePressNavigate = () => {
         this.navigator.push({
-            routeId: NavigationRouteId.SecondPanel,
+            routeId: NavigationRouteId.LearnPanel,
             sceneConfigType: Types.NavigatorSceneConfigType.FloatFromRight
         });
     }

@@ -1,8 +1,10 @@
+import { inject, observer } from "mobx-react/native";
 import * as RX from 'reactxp';
-import practiceStore from "./model/PracticeStore";
+import { PracticeStore } from "./model/PracticeStore";
 import { Gender } from "./model/WordStore";
 
 interface LearnPanelProps {
+    practiceStore?: PracticeStore;
     onNavigateBack: () => void;
 }
 
@@ -82,8 +84,12 @@ const styles = {
     })
 };
 
+@inject("practiceStore")
+@observer
 class LearnPanel extends RX.Component<LearnPanelProps> {
     public componentDidMount() {
+        const practiceStore: PracticeStore = this.props.practiceStore;
+
         for (let i = 0; i < 20; i++) {
             practiceStore.getNextWord();
             practiceStore.updateLastPractice(Gender.Masculine);
@@ -146,5 +152,3 @@ class LearnPanel extends RX.Component<LearnPanelProps> {
 }
 
 export default LearnPanel;
-
-// export default observer(["practiceStore"], LearnPanel);

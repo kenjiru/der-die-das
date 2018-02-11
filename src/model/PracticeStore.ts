@@ -1,16 +1,24 @@
 import * as _ from "lodash";
+import { action, observable, useStrict } from "mobx";
 import NumberUtil from "../util/NumberUtil";
 import wordStore, { Gender, IWordEntry } from "./WordStore";
+
+useStrict(true);
 
 export class PracticeStore {
     private static MAX_RANDOM: number = 20;
     public static MAX_CURRENT_WORDS: number = 3;
 
+    @observable
     public pastEntries: IPracticeEntry[] = [];
+    @observable
     public currentEntries: IPracticeEntry[] = [];
+    @observable
     public lastEntry: IPracticeEntry;
+    @observable
     public progressIndex: number = 0;
 
+    @action
     public getNextWord(): IPracticeEntry {
         if (this.currentEntries.length < PracticeStore.MAX_CURRENT_WORDS) {
             return this.getNewEntry();
@@ -105,6 +113,7 @@ export class PracticeStore {
         return entry.lastFive[entry.lastFive.length - 1] || false;
     }
 
+    @action
     public updateLastPractice(gender: Gender): void {
         const wordEntry: IWordEntry = wordStore.findWord(this.lastEntry.word);
         const isHit: boolean = (wordEntry.gender === gender);
