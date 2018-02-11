@@ -1,7 +1,9 @@
+import * as _ from "lodash";
 import { inject, observer } from "mobx-react/native";
+import { ReactElement } from "react";
 import * as RX from 'reactxp';
 import { PracticeStore } from "./model/PracticeStore";
-import { Gender } from "./model/WordStore";
+import { default as wordStore, Gender } from "./model/WordStore";
 
 interface LearnPanelProps {
     practiceStore?: PracticeStore;
@@ -87,38 +89,30 @@ const styles = {
 @inject("practiceStore")
 @observer
 class LearnPanel extends RX.Component<LearnPanelProps> {
-    public componentDidMount() {
+    constructor(props: LearnPanelProps) {
+        super(props);
+
         const practiceStore: PracticeStore = this.props.practiceStore;
-
-        for (let i = 0; i < 20; i++) {
-            practiceStore.getNextWord();
-            practiceStore.updateLastPractice(Gender.Masculine);
-
-            console.log({
-                pastEntries: practiceStore.pastEntries,
-                currentEntries: practiceStore.currentEntries,
-                lastEntry: practiceStore.lastEntry,
-                progressIndex: practiceStore.progressIndex
-            });
-        }
+        practiceStore.getNextWord();
     }
 
     render() {
+        const word: string = this.props.practiceStore.lastEntry.word;
+        const translation: string = wordStore.findWord(word).translation;
+
         return (
             <RX.View style={styles.container}>
                 <RX.View style={styles.textContainer}>
                     <RX.Text style={styles.wordText}>
-                        ●●● Augenblick
+                        ●●● {word}
                     </RX.Text>
 
                     <RX.Text style={styles.translationText}>
-                        moment
+                        {translation}
                     </RX.Text>
 
                     <RX.View style={styles.feedbackContainer}>
-                        <RX.View style={[styles.resBox, styles.hitBox]}></RX.View>
-                        <RX.View style={[styles.resBox, styles.hitBox]}></RX.View>
-                        <RX.View style={[styles.resBox, styles.missBox]}></RX.View>
+                        {this.renderLastFive()}
                     </RX.View>
                 </RX.View>
 
@@ -126,17 +120,26 @@ class LearnPanel extends RX.Component<LearnPanelProps> {
                 </RX.View>
 
                 <RX.View style={styles.buttonContainer}>
-                    <RX.Button style={[styles.roundButton, styles.derButton]} onPress={this.handleBack}>
+                    <RX.Button
+                        style={[styles.roundButton, styles.derButton]}
+                        onPress={() => this.handleArticle(Gender.Masculine)}
+                    >
                         <RX.Text style={styles.buttonText}>
                             der
                         </RX.Text>
                     </RX.Button>
-                    <RX.Button style={[styles.roundButton, styles.dieButton]} onPress={this.handleBack}>
+                    <RX.Button
+                        style={[styles.roundButton, styles.dieButton]}
+                        onPress={() => this.handleArticle(Gender.Feminine)}
+                    >
                         <RX.Text style={styles.buttonText}>
                             die
                         </RX.Text>
                     </RX.Button>
-                    <RX.Button style={[styles.roundButton, styles.dasButton]} onPress={this.handleBack}>
+                    <RX.Button
+                        style={[styles.roundButton, styles.dasButton]}
+                        onPress={() => this.handleArticle(Gender.Neuter)}
+                    >
                         <RX.Text style={styles.buttonText}>
                             das
                         </RX.Text>
@@ -144,6 +147,23 @@ class LearnPanel extends RX.Component<LearnPanelProps> {
                 </RX.View>
             </RX.View>
         );
+    }
+
+    private renderLastFive(): ReactElement<any>[] {
+        return _.map(this.props.practiceStore.lastEntry.lastFive,
+            (isHit: boolean, index: number) =>
+                <RX.View
+                    key={index}
+                    style={[styles.resBox, isHit ? styles.hitBox : styles.missBox]}
+                />
+        );
+    }
+
+    private handleArticle = (gender: Gender) => {
+        const practiceStore: PracticeStore = this.props.practiceStore;
+
+        practiceStore.updateLastPractice(gender);
+        practiceStore.getNextWord();
     }
 
     private handleBack = () => {
