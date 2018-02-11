@@ -1,4 +1,6 @@
 import * as RX from 'reactxp';
+import practiceStore from "./model/PracticeStore";
+import { Gender } from "./model/WordStore";
 
 interface LearnPanelProps {
     onNavigateBack: () => void;
@@ -81,6 +83,20 @@ const styles = {
 };
 
 class LearnPanel extends RX.Component<LearnPanelProps> {
+    public componentDidMount() {
+        for (let i = 0; i < 20; i++) {
+            practiceStore.getNextWord();
+            practiceStore.updateLastPractice(Gender.Masculine);
+
+            console.log({
+                pastEntries: practiceStore.pastEntries,
+                currentEntries: practiceStore.currentEntries,
+                lastEntry: practiceStore.lastEntry,
+                progressIndex: practiceStore.progressIndex
+            });
+        }
+    }
+
     render() {
         return (
             <RX.View style={styles.container}>
@@ -130,3 +146,5 @@ class LearnPanel extends RX.Component<LearnPanelProps> {
 }
 
 export default LearnPanel;
+
+// export default observer(["practiceStore"], LearnPanel);
