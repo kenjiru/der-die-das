@@ -21,6 +21,13 @@ const config: webpack.Configuration = {
             {test: /\.tsx?$/, loader: "awesome-typescript-loader"},
         ]
     },
+
+    plugins: [
+        new webpack.NormalModuleReplacementPlugin(
+            /mobx-react\/native/,
+            "mobx-react"
+        )
+    ]
 };
 
 export default config;
