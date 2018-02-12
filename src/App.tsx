@@ -1,9 +1,9 @@
 import { Provider } from "mobx-react/native";
 import * as RX from 'reactxp';
 import Navigator, { NavigatorDelegateSelector as DelegateSelector, Types } from 'reactxp-navigation';
-import LearnPanel from './LearnPanel';
+import LearnPanel from './components/learn-panel/LearnPanel';
 
-import MainPanel from './MainPanel';
+import MainPanel from './components/main-panel/MainPanel';
 import practiceStore from "./model/PracticeStore";
 
 enum NavigationRouteId {

@@ -145,6 +145,8 @@ export class PracticeStore {
             lastFive: _.takeRight(lastEntry.lastFive, 5),
             lastDateAsked: Date.now()
         });
+
+        console.log(_.takeRight(lastEntry.lastFive, 5));
     }
 }
 

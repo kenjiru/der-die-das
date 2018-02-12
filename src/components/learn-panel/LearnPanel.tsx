@@ -2,8 +2,8 @@ import * as _ from "lodash";
 import { inject, observer } from "mobx-react/native";
 import { ReactElement } from "react";
 import * as RX from 'reactxp';
-import { PracticeStore } from "./model/PracticeStore";
-import { default as wordStore, Gender } from "./model/WordStore";
+import { PracticeStore } from "../../model/PracticeStore";
+import { default as wordStore, Gender } from "../../model/WordStore";
 
 interface LearnPanelProps {
     practiceStore?: PracticeStore;
