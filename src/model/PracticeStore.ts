@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { action, observable, useStrict } from "mobx";
+import { action, computed, observable, useStrict } from "mobx";
 import NumberUtil from "../util/NumberUtil";
 import wordStore, { Gender, IWordEntry } from "./WordStore";
 
@@ -14,9 +14,18 @@ export class PracticeStore {
     @observable
     public currentEntries: IPracticeEntry[] = [];
     @observable
-    public lastEntry: IPracticeEntry;
+    public currentEntryIndex: number = -1;
     @observable
     public progressIndex: number = 0;
+
+    @computed
+    get lastEntry(): IPracticeEntry {
+        if (this.currentEntryIndex === -1) {
+            return null;
+        }
+
+        return this.currentEntries[this.currentEntryIndex];
+    }
 
     @action
     public getNextWord(): IPracticeEntry {
@@ -53,21 +62,22 @@ export class PracticeStore {
     private getRandomCurrentEntry(): IPracticeEntry {
         const randomIndex: number = NumberUtil.getRandomInt(0, this.currentEntries.length - 1);
 
-        const entry: IPracticeEntry = this.currentEntries[randomIndex];
-        this.lastEntry = entry;
+        this.currentEntryIndex = randomIndex;
 
-        return entry;
+        return this.currentEntries[randomIndex];
     }
 
     private getRandomPastEntry(): IPracticeEntry {
         const randomIndex: number = NumberUtil.getRandomInt(0, this.getMaxPastIndex());
-        const sortedPastEntries: IPracticeEntry[] = _.sortBy(this.pastEntries,
+        const pastEntries: IPracticeEntry[] = _.differenceBy(this.pastEntries, this.currentEntries,
+            (firstEntry: IPracticeEntry) => firstEntry.word);
+        const sortedPastEntries: IPracticeEntry[] = _.sortBy(pastEntries,
             (entry: IPracticeEntry) => entry.lastDateAsked);
 
         const pastEntry: IPracticeEntry = sortedPastEntries[randomIndex];
 
         this.currentEntries.push(pastEntry);
-        this.lastEntry = pastEntry;
+        this.currentEntryIndex = this.currentEntries.length - 1;
 
         return pastEntry;
     }
@@ -84,7 +94,7 @@ export class PracticeStore {
 
         this.pastEntries.push(newEntry);
         this.currentEntries.push(newEntry);
-        this.lastEntry = newEntry;
+        this.currentEntryIndex = this.currentEntries.length - 1;
 
         ++this.progressIndex;
 
@@ -145,8 +155,6 @@ export class PracticeStore {
             lastFive: _.takeRight(lastEntry.lastFive, 5),
             lastDateAsked: Date.now()
         });
-
-        console.log(_.takeRight(lastEntry.lastFive, 5));
     }
 }
 
