@@ -19,7 +19,11 @@ export interface IWordEntry {
     sentence?: string;
 }
 
-export enum Gender { Masculine, Feminine, Neuter }
+export enum Gender {
+    Masculine = "der",
+    Feminine = "die",
+    Neuter = "das"
+}
 
 const wordStore: WordStore = new WordStore();
 wordStore.words.push.apply(wordStore.words, [{

@@ -1,14 +1,10 @@
+import * as _ from "lodash";
 import { inject, observer } from "mobx-react/native";
 import * as RX from 'reactxp';
 import { IPracticeEntry, PracticeStore } from "../../model/PracticeStore";
 import { default as wordStore, Gender, IWordEntry } from "../../model/WordStore";
 import ArticleButtons from "./ArticleButtons";
 import WordDetails from "./WordDetails";
-
-interface ILearnPanelProps {
-    practiceStore?: PracticeStore;
-    onNavigateBack?: () => void;
-}
 
 const styles = {
     container: RX.Styles.createViewStyle({
@@ -25,12 +21,16 @@ const styles = {
 
 @inject("practiceStore")
 @observer
-class LearnPanel extends RX.Component<ILearnPanelProps> {
+class LearnPanel extends RX.Component<ILearnPanelProps, ILearnPanelState> {
+    private static DISPLAY_DELAY: number = 1000;
+
     constructor(props: ILearnPanelProps) {
         super(props);
 
         const practiceStore: PracticeStore = this.props.practiceStore;
         practiceStore.getNextWord();
+
+        this.state = {};
     }
 
     render() {
@@ -42,6 +42,7 @@ class LearnPanel extends RX.Component<ILearnPanelProps> {
                 <WordDetails
                     practiceEntry={lastEntry}
                     wordEntry={wordEntry}
+                    selectedArticle={this.state.selectedArticle}
                 />
 
                 <RX.View style={styles.middleContainer}>
@@ -53,11 +54,39 @@ class LearnPanel extends RX.Component<ILearnPanelProps> {
     }
 
     private handleArticle = (gender: Gender) => {
-        const practiceStore: PracticeStore = this.props.practiceStore;
+        if (_.isNil(this.state.selectedArticle) === false) {
+            return;
+        }
+
+        const {practiceStore} = this.props;
 
         practiceStore.updateLastPractice(gender);
-        practiceStore.getNextWord();
+
+        this.setState({
+            selectedArticle: gender
+        });
+
+        setTimeout(this.getNextWord, LearnPanel.DISPLAY_DELAY);
     }
+
+    private getNextWord = () => {
+        const {practiceStore} = this.props;
+
+        practiceStore.getNextWord();
+
+        this.setState({
+            selectedArticle: null
+        });
+    }
+}
+
+interface ILearnPanelProps {
+    practiceStore?: PracticeStore;
+    onNavigateBack?: () => void;
+}
+
+interface ILearnPanelState {
+    selectedArticle?: Gender;
 }
 
 export default LearnPanel;
