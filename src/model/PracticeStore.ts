@@ -8,23 +8,25 @@ useStrict(true);
 export class PracticeStore {
     private static MAX_RANDOM: number = 20;
     public static MAX_CURRENT_WORDS: number = 3;
+    public static TWO_DAYS: number = 1000 * 60 * 60 * 24 * 2;
 
     @observable
     public pastEntries: IPracticeEntry[] = [];
     @observable
     public currentEntries: IPracticeEntry[] = [];
     @observable
-    public currentEntryIndex: number = -1;
+    public currentWord: string;
     @observable
     public progressIndex: number = 0;
 
     @computed
     get lastEntry(): IPracticeEntry {
-        if (this.currentEntryIndex === -1) {
+        if (_.isNil(this.currentWord)) {
             return null;
         }
 
-        return this.currentEntries[this.currentEntryIndex];
+        return _.find(this.currentEntries,
+            (entry: IPracticeEntry) => entry.word === this.currentWord);
     }
 
     @action
@@ -35,18 +37,21 @@ export class PracticeStore {
 
         if (this.lastEntryWasHit()) {
             if (this.lastEntryWasLearned()) {
-                this.removeLastEntryFromCurrent();
+                const currentWord: string = this.currentWord;
+                const nextEntry: IPracticeEntry = this.getNextEntry();
 
-                return this.getNextEntry();
+                this.removeFromCurrent(currentWord);
+
+                return nextEntry;
             }
         }
 
         return this.getRandomCurrentEntry();
     }
 
-    private removeLastEntryFromCurrent(): void {
+    private removeFromCurrent(word: string): void {
         _.remove(this.currentEntries,
-            (entry: IPracticeEntry): boolean => entry.word === this.lastEntry.word);
+            (entry: IPracticeEntry): boolean => entry.word === word);
     }
 
     private getNextEntry(): IPracticeEntry {
@@ -56,36 +61,50 @@ export class PracticeStore {
             return this.getNewEntry();
         }
 
-        return this.getRandomPastEntry();
+        const randomPastEntry: IPracticeEntry = this.getRandomPastEntry();
+
+        if (_.isNil(randomPastEntry)) {
+            return this.getNewEntry();
+        }
+
+        return randomPastEntry;
     }
 
     private getRandomCurrentEntry(): IPracticeEntry {
-        const randomIndex: number = NumberUtil.getRandomInt(0, this.currentEntries.length - 1);
+        const currentEntries: IPracticeEntry[] = _.filter(this.currentEntries,
+            (entry: IPracticeEntry) => entry.word !== this.currentWord);
+        const randomIndex: number = NumberUtil.getRandomInt(0, currentEntries.length - 1);
 
-        this.currentEntryIndex = randomIndex;
+        this.currentWord = currentEntries[randomIndex].word;
 
-        return this.currentEntries[randomIndex];
+        return currentEntries[randomIndex];
     }
 
     private getRandomPastEntry(): IPracticeEntry {
-        const randomIndex: number = NumberUtil.getRandomInt(0, this.getMaxPastIndex());
         const pastEntries: IPracticeEntry[] = _.differenceBy(this.pastEntries, this.currentEntries,
-            (firstEntry: IPracticeEntry) => firstEntry.word);
-        const sortedPastEntries: IPracticeEntry[] = _.sortBy(pastEntries,
+            (entry: IPracticeEntry) => entry.word);
+
+        const filteredPastEntries: IPracticeEntry[] = _.filter(pastEntries,
+            (entry: IPracticeEntry) => entry.lastDateAsked - Date.now() > PracticeStore.TWO_DAYS);
+
+        const sortedPastEntries: IPracticeEntry[] = _.sortBy(filteredPastEntries,
             (entry: IPracticeEntry) => entry.lastDateAsked);
 
+        if (sortedPastEntries.length === 0) {
+            return null;
+        }
+
+        const randomIndex: number = NumberUtil.getRandomInt(0, this.getMaxPastIndex(pastEntries.length));
         const pastEntry: IPracticeEntry = sortedPastEntries[randomIndex];
 
         this.currentEntries.push(pastEntry);
-        this.currentEntryIndex = this.currentEntries.length - 1;
+        this.currentWord = pastEntry.word;
 
         return pastEntry;
     }
 
-    private getMaxPastIndex(): number {
-        return this.pastEntries.length - 1 < PracticeStore.MAX_RANDOM
-            ? this.pastEntries.length - 1
-            : PracticeStore.MAX_RANDOM;
+    private getMaxPastIndex(length: number): number {
+        return length - 1 < PracticeStore.MAX_RANDOM ? length - 1 : PracticeStore.MAX_RANDOM;
     }
 
     private getNewEntry(): IPracticeEntry {
@@ -94,7 +113,7 @@ export class PracticeStore {
 
         this.pastEntries.push(newEntry);
         this.currentEntries.push(newEntry);
-        this.currentEntryIndex = this.currentEntries.length - 1;
+        this.currentWord = newEntry.word;
 
         ++this.progressIndex;
 

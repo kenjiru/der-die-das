@@ -39,10 +39,6 @@ wordStore.words.push.apply(wordStore.words, [{
     translation: 'fish',
     gender: Gender.Masculine
 }, {
-    word: 'Antail',
-    translation: 'fraction',
-    gender: Gender.Masculine
-}, {
     word: 'Baby',
     translation: 'baby',
     gender: Gender.Neuter
