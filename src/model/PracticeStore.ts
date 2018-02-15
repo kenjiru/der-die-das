@@ -30,52 +30,52 @@ export class PracticeStore {
     }
 
     @action
-    public getNextWord(): IPracticeEntry {
+    public getNextWord(): void {
+        let nextEntry: IPracticeEntry;
+
         if (this.currentEntries.length < PracticeStore.MAX_CURRENT_WORDS) {
-            return this.getNewEntry();
-        }
+            nextEntry = this.getNewEntry();
+            this.addToCurrentEntries(nextEntry);
+        } else {
+            if (this.lastEntryWasHit()) {
+                if (this.lastEntryWasLearned()) {
+                    nextEntry = this.getNextEntry();
 
-        if (this.lastEntryWasHit()) {
-            if (this.lastEntryWasLearned()) {
-                const currentWord: string = this.currentWord;
-                const nextEntry: IPracticeEntry = this.getNextEntry();
-
-                this.removeFromCurrent(currentWord);
-
-                return nextEntry;
+                    this.removeFromCurrent(this.currentWord);
+                }
             }
+
+            nextEntry = this.getRandomCurrentEntry();
         }
 
-        return this.getRandomCurrentEntry();
-    }
-
-    private removeFromCurrent(word: string): void {
-        _.remove(this.currentEntries,
-            (entry: IPracticeEntry): boolean => entry.word === word);
+        this.currentWord = nextEntry.word;
     }
 
     private getNextEntry(): IPracticeEntry {
         const randomNumber: number = NumberUtil.getRandomInt(0, 100);
+        let entry: IPracticeEntry;
 
         if (randomNumber > 70) {
-            return this.getNewEntry();
+            entry = this.getNewEntry();
+            this.addToPastEntries(entry);
+        } else {
+            entry = this.getRandomPastEntry();
+
+            if (_.isNil(entry)) {
+                entry = this.getNewEntry();
+                this.addToPastEntries(entry);
+            }
         }
 
-        const randomPastEntry: IPracticeEntry = this.getRandomPastEntry();
+        this.addToCurrentEntries(entry);
 
-        if (_.isNil(randomPastEntry)) {
-            return this.getNewEntry();
-        }
-
-        return randomPastEntry;
+        return entry;
     }
 
     private getRandomCurrentEntry(): IPracticeEntry {
         const currentEntries: IPracticeEntry[] = _.filter(this.currentEntries,
             (entry: IPracticeEntry) => entry.word !== this.currentWord);
         const randomIndex: number = NumberUtil.getRandomInt(0, currentEntries.length - 1);
-
-        this.currentWord = currentEntries[randomIndex].word;
 
         return currentEntries[randomIndex];
     }
@@ -95,12 +95,8 @@ export class PracticeStore {
         }
 
         const randomIndex: number = NumberUtil.getRandomInt(0, this.getMaxPastIndex(pastEntries.length));
-        const pastEntry: IPracticeEntry = sortedPastEntries[randomIndex];
 
-        this.currentEntries.push(pastEntry);
-        this.currentWord = pastEntry.word;
-
-        return pastEntry;
+        return sortedPastEntries[randomIndex];
     }
 
     private getMaxPastIndex(length: number): number {
@@ -110,10 +106,6 @@ export class PracticeStore {
     private getNewEntry(): IPracticeEntry {
         const newWord: string = wordStore.getWord(this.progressIndex);
         const newEntry: IPracticeEntry = this.createNewEntry(newWord);
-
-        this.pastEntries.push(newEntry);
-        this.currentEntries.push(newEntry);
-        this.currentWord = newEntry.word;
 
         ++this.progressIndex;
 
@@ -128,6 +120,24 @@ export class PracticeStore {
             consecutiveHit: 0,
             lastFive: []
         }
+    }
+
+    private addToCurrentEntries(entry: IPracticeEntry): void {
+        this.currentEntries.push(entry);
+    }
+
+    private removeFromCurrent(word: string): void {
+        _.remove(this.currentEntries,
+            (entry: IPracticeEntry): boolean => entry.word === word);
+    }
+
+    private addToPastEntries(entry: IPracticeEntry): void {
+        this.pastEntries.push(entry);
+    }
+
+    private removeFromPast(word: string): void {
+        _.remove(this.pastEntries,
+            (entry: IPracticeEntry): boolean => entry.word === word);
     }
 
     private lastEntryWasLearned(): boolean {
