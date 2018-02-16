@@ -34,37 +34,26 @@ export class PracticeStore {
         let nextEntry: IPracticeEntry;
 
         if (this.currentEntries.length < PracticeStore.MAX_CURRENT_WORDS) {
-            nextEntry = this.getNewEntry();
-            this.addToCurrentEntries(nextEntry);
+            nextEntry = this.getNewOrPast();
         } else {
-            if (this.lastEntryWasHit()) {
-                if (this.lastEntryWasLearned()) {
-                    nextEntry = this.getNextEntry();
-
-                    this.removeFromCurrent(this.currentWord);
-                }
+            if (this.lastEntryWasLearned()) {
+                nextEntry = this.getNewOrPast();
+                this.removeFromCurrent(this.currentWord);
+            } else {
+                nextEntry = this.getRandomCurrentEntry();
             }
-
-            nextEntry = this.getRandomCurrentEntry();
         }
 
         this.currentWord = nextEntry.word;
     }
 
-    private getNextEntry(): IPracticeEntry {
-        const randomNumber: number = NumberUtil.getRandomInt(0, 100);
-        let entry: IPracticeEntry;
+    private getNewOrPast(): IPracticeEntry {
+        let entry: IPracticeEntry = this.getNewEntry();
 
-        if (randomNumber > 70) {
-            entry = this.getNewEntry();
+        if (_.isNil(entry) === false) {
             this.addToPastEntries(entry);
         } else {
             entry = this.getRandomPastEntry();
-
-            if (_.isNil(entry)) {
-                entry = this.getNewEntry();
-                this.addToPastEntries(entry);
-            }
         }
 
         this.addToCurrentEntries(entry);
@@ -84,17 +73,17 @@ export class PracticeStore {
         const pastEntries: IPracticeEntry[] = _.differenceBy(this.pastEntries, this.currentEntries,
             (entry: IPracticeEntry) => entry.word);
 
-        const filteredPastEntries: IPracticeEntry[] = _.filter(pastEntries,
-            (entry: IPracticeEntry) => entry.lastDateAsked - Date.now() > PracticeStore.TWO_DAYS);
+        // const filteredPastEntries: IPracticeEntry[] = _.filter(pastEntries,
+        //     (entry: IPracticeEntry) => entry.lastDateAsked - Date.now() > PracticeStore.TWO_DAYS);
 
-        const sortedPastEntries: IPracticeEntry[] = _.sortBy(filteredPastEntries,
+        const sortedPastEntries: IPracticeEntry[] = _.sortBy(pastEntries,
             (entry: IPracticeEntry) => entry.lastDateAsked);
 
         if (sortedPastEntries.length === 0) {
             return null;
         }
 
-        const randomIndex: number = NumberUtil.getRandomInt(0, this.getMaxPastIndex(pastEntries.length));
+        const randomIndex: number = NumberUtil.getRandomInt(0, this.getMaxPastIndex(sortedPastEntries.length));
 
         return sortedPastEntries[randomIndex];
     }
@@ -105,11 +94,14 @@ export class PracticeStore {
 
     private getNewEntry(): IPracticeEntry {
         const newWord: string = wordStore.getWord(this.progressIndex);
-        const newEntry: IPracticeEntry = this.createNewEntry(newWord);
 
-        ++this.progressIndex;
+        if (_.isNil(newWord) === false) {
+            ++this.progressIndex;
+        } else {
+            return null;
+        }
 
-        return newEntry;
+        return this.createNewEntry(newWord);
     }
 
     private createNewEntry(word: string): IPracticeEntry {
@@ -141,7 +133,7 @@ export class PracticeStore {
     }
 
     private lastEntryWasLearned(): boolean {
-        return this.lastEntry.consecutiveHit === 5;
+        return _.isNil(this.lastEntry) === false && this.lastEntry.consecutiveHit === 5;
     }
 
     private lastEntryWasHit(): boolean {

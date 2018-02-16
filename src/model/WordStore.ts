@@ -8,7 +8,11 @@ export class WordStore {
     }
 
     public getWord(index: number): string {
-        return this.words[index].word;
+        if (index < this.words.length) {
+            return this.words[index].word;
+        }
+
+        return null;
     }
 }
 
