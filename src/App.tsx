@@ -4,11 +4,14 @@ import Navigator, { NavigatorDelegateSelector as DelegateSelector, Types } from 
 import LearnPanel from './components/learn-panel/LearnPanel';
 
 import MainPanel from './components/main-panel/MainPanel';
+import SettingsPanel from "./components/settings-panel/SettingsPanel";
 import practiceStore from "./model/PracticeStore";
+import settingsStore from "./model/SettingsStore";
 
 enum NavigationRouteId {
     MainPanel,
-    LearnPanel
+    LearnPanel,
+    SettingsPanel
 }
 
 const styles = {
@@ -30,7 +33,7 @@ class App extends RX.Component<{}, null> {
 
     render() {
         return (
-            <Provider practiceStore={practiceStore}>
+            <Provider practiceStore={practiceStore} settingsStore={settingsStore}>
                 <Navigator
                     ref={this.handleNavigatorRef}
                     renderScene={this.renderScene}
@@ -52,6 +55,9 @@ class App extends RX.Component<{}, null> {
 
             case NavigationRouteId.LearnPanel:
                 return <LearnPanel onNavigateBack={this.handlePressBack}/>;
+
+            case NavigationRouteId.SettingsPanel:
+                return <SettingsPanel/>;
         }
 
         return null;
