@@ -1,4 +1,5 @@
 import * as RX from 'reactxp';
+import Panel from "../../widgets/panel/Panel";
 
 interface MainPanelProps {
     onPressNavigate: () => void;
@@ -8,11 +9,6 @@ const styles = {
     scroll: RX.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
         backgroundColor: '#f5fcff'
-    }),
-    container: RX.Styles.createViewStyle({
-        padding: 16,
-        justifyContent: 'center',
-        alignItems: 'center'
     }),
     welcome: RX.Styles.createTextStyle({
         fontSize: 32,
@@ -35,7 +31,7 @@ class MainPanel extends RX.Component<MainPanelProps, null> {
     render() {
         return (
             <RX.ScrollView style={styles.scroll}>
-                <RX.View style={styles.container}>
+                <Panel>
                     <RX.Text style={styles.welcome}>
                         Hello World
                     </RX.Text>
@@ -45,7 +41,7 @@ class MainPanel extends RX.Component<MainPanelProps, null> {
                             Go to next panel
                         </RX.Text>
                     </RX.Button>
-                </RX.View>
+                </Panel>
             </RX.ScrollView>
         );
     }

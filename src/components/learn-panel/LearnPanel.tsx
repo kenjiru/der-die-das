@@ -3,17 +3,11 @@ import { inject, observer } from "mobx-react/native";
 import * as RX from 'reactxp';
 import { IPracticeEntry, PracticeStore } from "../../model/PracticeStore";
 import { default as wordStore, Gender, IWordEntry } from "../../model/WordStore";
+import Panel from "../../widgets/panel/Panel";
 import ArticleButtons from "./ArticleButtons";
 import WordDetails from "./WordDetails";
 
 const styles = {
-    container: RX.Styles.createViewStyle({
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: 16
-    }),
-
     middleContainer: RX.Styles.createViewStyle({
         flex: 2
     })
@@ -38,7 +32,7 @@ class LearnPanel extends RX.Component<ILearnPanelProps, ILearnPanelState> {
         const wordEntry: IWordEntry = wordStore.findWord(lastEntry.word);
 
         return (
-            <RX.View style={styles.container}>
+            <Panel>
                 <WordDetails
                     practiceEntry={lastEntry}
                     wordEntry={wordEntry}
@@ -49,7 +43,7 @@ class LearnPanel extends RX.Component<ILearnPanelProps, ILearnPanelState> {
                 </RX.View>
 
                 <ArticleButtons onArticle={this.handleArticle}/>
-            </RX.View>
+            </Panel>
         );
     }
 
