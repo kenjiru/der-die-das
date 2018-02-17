@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import { inject, observer } from "mobx-react/native";
 import * as RX from 'reactxp';
 import { IPracticeEntry, PracticeStore } from "../../model/PracticeStore";
+import { SettingsStore } from "../../model/SettingsStore";
 import { default as wordStore, Gender, IWordEntry } from "../../model/WordStore";
 import Panel from "../../widgets/panel/Panel";
 import ArticleButtons from "./ArticleButtons";
@@ -14,9 +15,10 @@ const styles = {
 };
 
 @inject("practiceStore")
+@inject("settingsStore")
 @observer
 class LearnPanel extends RX.Component<ILearnPanelProps, ILearnPanelState> {
-    private static DISPLAY_DELAY: number = 1000;
+    private static DELAY_INCREMENT: number = 200;
 
     constructor(props: ILearnPanelProps) {
         super(props);
@@ -60,7 +62,11 @@ class LearnPanel extends RX.Component<ILearnPanelProps, ILearnPanelState> {
             selectedArticle: gender
         });
 
-        setTimeout(this.getNextWord, LearnPanel.DISPLAY_DELAY);
+        setTimeout(this.getNextWord, this.getReactionSpeed());
+    }
+
+    private getReactionSpeed(): number {
+        return (this.props.settingsStore.reactionSpeed + 1) * LearnPanel.DELAY_INCREMENT;
     }
 
     private getNextWord = () => {
@@ -76,6 +82,7 @@ class LearnPanel extends RX.Component<ILearnPanelProps, ILearnPanelState> {
 
 interface ILearnPanelProps {
     practiceStore?: PracticeStore;
+    settingsStore?: SettingsStore;
     onNavigateBack?: () => void;
 }
 
