@@ -8,7 +8,7 @@ import SettingsPanel from "./components/settings-panel/SettingsPanel";
 import practiceStore from "./model/PracticeStore";
 import settingsStore from "./model/SettingsStore";
 
-enum NavigationRouteId {
+export enum NavigationRouteId {
     MainPanel,
     LearnPanel,
     SettingsPanel
@@ -22,10 +22,9 @@ const styles = {
 };
 
 class App extends RX.Component<{}, null> {
-    private navigator: Navigator;
 
     componentDidMount() {
-        this.navigator.immediatelyResetRouteStack([{
+        settingsStore.navigator.immediatelyResetRouteStack([{
             routeId: NavigationRouteId.LearnPanel,
             sceneConfigType: Types.NavigatorSceneConfigType.Fade
         }]);
@@ -45,33 +44,22 @@ class App extends RX.Component<{}, null> {
     }
 
     private handleNavigatorRef = (navigator: Navigator) => {
-        this.navigator = navigator;
+        settingsStore.setNavigator(navigator);
     }
 
     private renderScene = (navigatorRoute: Types.NavigatorRoute) => {
         switch (navigatorRoute.routeId) {
             case NavigationRouteId.MainPanel:
-                return <MainPanel onPressNavigate={this.handlePressNavigate}/>;
+                return <MainPanel/>;
 
             case NavigationRouteId.LearnPanel:
-                return <LearnPanel onNavigateBack={this.handlePressBack}/>;
+                return <LearnPanel/>;
 
             case NavigationRouteId.SettingsPanel:
                 return <SettingsPanel/>;
         }
 
         return null;
-    }
-
-    private handlePressNavigate = () => {
-        this.navigator.push({
-            routeId: NavigationRouteId.LearnPanel,
-            sceneConfigType: Types.NavigatorSceneConfigType.FloatFromRight
-        });
-    }
-
-    private handlePressBack = () => {
-        this.navigator.pop();
     }
 }
 
