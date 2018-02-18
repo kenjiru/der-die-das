@@ -6,6 +6,7 @@ import { TextStyleRuleSet } from "reactxp/dist/common/Types";
 import { IPracticeEntry } from "../../model/PracticeStore";
 import { Gender, IWordEntry } from "../../model/WordStore";
 import constants from "../../util/StyleConstants";
+import PanelTitle from "../panel-title/PanelTitle";
 import Feedback from "./Feedback";
 
 const styles = {
@@ -15,8 +16,7 @@ const styles = {
     wordText: RX.Styles.createTextStyle({
         fontSize: constants.BIG_TEXT,
         fontWeight: 'bold',
-        textAlign: 'center',
-        marginTop: constants.MEDIUM_SPACING
+        textAlign: 'center'
     }),
     translationText: RX.Styles.createTextStyle({
         fontSize: constants.MEDIUM_TEXT,
@@ -40,9 +40,11 @@ class WordDetails extends Component<IWordDetailsProps> {
 
         return (
             <RX.View style={styles.textContainer}>
-                <RX.Text style={[styles.wordText, this.computeStyle()]}>
-                    {this.renderArticle()} {practiceEntry.word}
-                </RX.Text>
+                <PanelTitle>
+                    <RX.Text style={[styles.wordText, this.computeStyle()]}>
+                        {this.renderArticle()} {practiceEntry.word}
+                    </RX.Text>
+                </PanelTitle>
 
                 <RX.Text style={styles.translationText}>
                     {wordEntry.translation}

@@ -5,6 +5,7 @@ import * as RX from "reactxp";
 import { SettingsStore } from "../../model/SettingsStore";
 import constants from "../../util/StyleConstants";
 import Panel from "../../widgets/panel/Panel";
+import PanelTitle from "../panel-title/PanelTitle";
 import ReactionSpeed from "./ReactionSpeed";
 
 const styles = {
@@ -18,7 +19,9 @@ const styles = {
 class SettingsPanel extends Component<ISettingsPanelProps, ISettingsPanelState> {
     public render(): ReactElement<HTMLElement> {
         return (
-            <Panel title="Settings">
+            <Panel>
+                <PanelTitle title="Settings"/>
+
                 <RX.Text style={styles.title}>
                     Reaction Speed
                 </RX.Text>
