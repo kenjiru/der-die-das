@@ -1,7 +1,11 @@
 import * as _ from "lodash";
+import { inject, observer } from "mobx-react/native";
 import * as React from "react";
 import { Component, ReactElement, ReactNode } from "react";
 import * as RX from "reactxp";
+import { Types } from "reactxp-navigation";
+import { NavigationRouteId } from "../../App";
+import { SettingsStore } from "../../model/SettingsStore";
 import constants from "../../util/StyleConstants";
 import BackImage from "../../widgets/images/BackImage";
 import SettingsImage from "../../widgets/images/SettingsImage";
@@ -30,6 +34,8 @@ const styles = {
     })
 };
 
+@inject("settingsStore")
+@observer
 class PanelTitle extends Component<IPanelTitleProps> {
     public defaultProps: IPanelTitleProps = {
         hasBack: true,
@@ -89,9 +95,14 @@ class PanelTitle extends Component<IPanelTitleProps> {
     }
 
     private handleBack = () => {
+        this.props.settingsStore.navigator.pop();
     }
 
     private handleSettings = () => {
+        this.props.settingsStore.navigator.push({
+            routeId: NavigationRouteId.SettingsPanel,
+            sceneConfigType: Types.NavigatorSceneConfigType.Fade
+        });
     }
 }
 
@@ -100,6 +111,7 @@ interface IPanelTitleProps {
     children?: ReactNode;
     hasBack?: boolean;
     hasSettings?: boolean;
+    settingsStore?: SettingsStore;
 }
 
 export default PanelTitle;

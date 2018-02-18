@@ -16,11 +16,11 @@ const styles = {
 
 @inject("settingsStore")
 @observer
-class SettingsPanel extends Component<ISettingsPanelProps, ISettingsPanelState> {
+class SettingsPanel extends Component<ISettingsPanelProps> {
     public render(): ReactElement<HTMLElement> {
         return (
             <Panel>
-                <PanelTitle title="Settings"/>
+                <PanelTitle title="Settings" hasSettings={false}/>
 
                 <RX.Text style={styles.title}>
                     Reaction Speed
@@ -37,9 +37,6 @@ class SettingsPanel extends Component<ISettingsPanelProps, ISettingsPanelState> 
     private handleSpeedChange = (speed: number): void => {
         this.props.settingsStore.setReactionSpeed(speed);
     }
-}
-
-interface ISettingsPanelState {
 }
 
 interface ISettingsPanelProps {

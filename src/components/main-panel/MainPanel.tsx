@@ -1,10 +1,6 @@
 import * as RX from 'reactxp';
 import Panel from "../../widgets/panel/Panel";
 
-interface MainPanelProps {
-    onPressNavigate: () => void;
-}
-
 const styles = {
     scroll: RX.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
@@ -47,8 +43,10 @@ class MainPanel extends RX.Component<MainPanelProps, null> {
     }
 
     private handleNavigate = () => {
-        this.props.onPressNavigate();
     }
+}
+
+interface MainPanelProps {
 }
 
 export default MainPanel;
