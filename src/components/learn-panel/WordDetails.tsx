@@ -5,31 +5,30 @@ import * as RX from 'reactxp';
 import { TextStyleRuleSet } from "reactxp/dist/common/Types";
 import { IPracticeEntry } from "../../model/PracticeStore";
 import { Gender, IWordEntry } from "../../model/WordStore";
+import constants from "../../util/StyleConstants";
 import Feedback from "./Feedback";
 
 const styles = {
-    textContainer: {
-        marginBottom: 8
-    },
+    textContainer: RX.Styles.createViewStyle({
+        marginBottom: constants.NORMAL_SPACING
+    }),
     wordText: RX.Styles.createTextStyle({
-        fontSize: 24,
+        fontSize: constants.BIG_TEXT,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: 12,
-        color: 'black'
+        marginTop: constants.MEDIUM_SPACING
     }),
     translationText: RX.Styles.createTextStyle({
-        fontSize: 16,
+        fontSize: constants.MEDIUM_TEXT,
         fontWeight: "500",
         textAlign: 'center',
-        marginTop: 12,
-        color: 'black'
+        marginTop: constants.MEDIUM_SPACING
     }),
     hitStyle: RX.Styles.createTextStyle({
-        color: '#008000'
+        color: constants.HIT_COLOR
     }),
     missStyle: RX.Styles.createTextStyle({
-        color: '#ee5555'
+        color: constants.MISS_COLOR
     })
 };
 

@@ -2,8 +2,7 @@ import * as React from "react";
 import { Component, ReactElement } from "react";
 import * as RX from "reactxp";
 import { StyleRuleSetRecursive, ViewStyleRuleSet } from "reactxp/src/common/Types";
-
-const BORDER_RADIUS: number = 4;
+import constants from "../../util/StyleConstants";
 
 const styles = {
     container: RX.Styles.createViewStyle({
@@ -12,30 +11,30 @@ const styles = {
     button: RX.Styles.createTextStyle({
         paddingVertical: 4,
         paddingHorizontal: 10,
-        backgroundColor: '#ffffff',
-        borderColor: '#dddddd',
+        backgroundColor: constants.WHITE,
+        borderColor: constants.LIGHT_GRAY,
         borderStyle: 'solid',
         borderWidth: 1,
         borderRightWidth: 0
     }),
     buttonSelected: RX.Styles.createViewStyle({
-        backgroundColor: '#337ab7'
+        backgroundColor: constants.LIGHT_BLUE
     }),
     firstButton: RX.Styles.createViewStyle({
-        borderBottomLeftRadius: BORDER_RADIUS,
-        borderTopLeftRadius: BORDER_RADIUS
+        borderBottomLeftRadius: constants.BORDER_RADIUS,
+        borderTopLeftRadius: constants.BORDER_RADIUS
     }),
     lastButton: RX.Styles.createViewStyle({
-        borderBottomRightRadius: BORDER_RADIUS,
-        borderTopRightRadius: BORDER_RADIUS,
+        borderBottomRightRadius: constants.BORDER_RADIUS,
+        borderTopRightRadius: constants.BORDER_RADIUS,
         borderWidth: 1,
         borderRightWidth: 1
     }),
     label: RX.Styles.createTextStyle({
-        color: '#337ab7'
+        color: constants.LIGHT_BLUE
     }),
     labelSelected: RX.Styles.createTextStyle({
-        color: 'white',
+        color: constants.WHITE
     })
 };
 

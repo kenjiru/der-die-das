@@ -3,25 +3,26 @@ import * as React from "react";
 import { Component, ReactElement } from "react";
 import * as RX from 'reactxp';
 import { IPracticeEntry } from "../../model/PracticeStore";
+import constants from "../../util/StyleConstants";
 
 const styles = {
     feedbackContainer: RX.Styles.createTextStyle({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 8,
-        marginBottom: 8
+        marginTop: constants.SMALL_SPACING,
+        marginBottom: constants.SMALL_SPACING
     }),
     resBox: RX.Styles.createTextStyle({
-        width: 16,
-        height: 16,
-        margin: 2
+        width: constants.SMALL_ICON,
+        height: constants.SMALL_ICON,
+        margin: constants.TINY_SPACING
     }),
     hitBox: RX.Styles.createTextStyle({
-        backgroundColor: '#008000'
+        backgroundColor: constants.HIT_COLOR
     }),
     missBox: RX.Styles.createTextStyle({
-        backgroundColor: '#ee5555'
+        backgroundColor: constants.MISS_COLOR
     })
 };
 

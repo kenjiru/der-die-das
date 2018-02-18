@@ -2,32 +2,33 @@ import * as React from "react";
 import { Component, ReactElement } from "react";
 import * as RX from 'reactxp';
 import { Gender } from "../../model/WordStore";
+import constants from "../../util/StyleConstants";
 
 const styles = {
     buttonContainer: RX.Styles.createViewStyle({
-        padding: 16
+        padding: constants.MEDIUM_SPACING
     }),
-    roundButton: RX.Styles.createViewStyle({
-        borderRadius: 4,
-        marginTop: 4,
-        padding: 4,
-        backgroundColor: '#7d88a9',
+    roundedButton: RX.Styles.createViewStyle({
+        borderRadius: constants.BORDER_RADIUS,
+        marginTop: constants.SMALL_SPACING,
+        padding: constants.SMALL_SPACING,
+        backgroundColor: constants.LIGHT_GRAY,
         alignItems: 'center'
     }),
     derButton: RX.Styles.createViewStyle({
-        backgroundColor: '#337ab7'
+        backgroundColor: constants.DER_COLOR
     }),
     dieButton: RX.Styles.createViewStyle({
-        backgroundColor: '#5cb85c'
+        backgroundColor: constants.DIE_COLOR
     }),
     dasButton: RX.Styles.createViewStyle({
-        backgroundColor: '#f0ad4e'
+        backgroundColor: constants.DAS_COLOR
     }),
     buttonText: RX.Styles.createTextStyle({
-        fontSize: 16,
-        marginVertical: 6,
-        marginHorizontal: 12,
-        color: 'white'
+        fontSize: constants.MEDIUM_TEXT,
+        marginVertical: constants.SMALL_SPACING,
+        marginHorizontal: constants.NORMAL_SPACING,
+        color: constants.WHITE
     })
 };
 
@@ -36,7 +37,7 @@ class ArticleButtons extends Component<IArticleButtonsProps> {
         return (
             <RX.View style={styles.buttonContainer}>
                 <RX.Button
-                    style={[styles.roundButton, styles.derButton]}
+                    style={[styles.roundedButton, styles.derButton]}
                     onPress={() => this.handleArticle(Gender.Masculine)}
                 >
                     <RX.Text style={styles.buttonText}>
@@ -44,7 +45,7 @@ class ArticleButtons extends Component<IArticleButtonsProps> {
                     </RX.Text>
                 </RX.Button>
                 <RX.Button
-                    style={[styles.roundButton, styles.dieButton]}
+                    style={[styles.roundedButton, styles.dieButton]}
                     onPress={() => this.handleArticle(Gender.Feminine)}
                 >
                     <RX.Text style={styles.buttonText}>
@@ -52,7 +53,7 @@ class ArticleButtons extends Component<IArticleButtonsProps> {
                     </RX.Text>
                 </RX.Button>
                 <RX.Button
-                    style={[styles.roundButton, styles.dasButton]}
+                    style={[styles.roundedButton, styles.dasButton]}
                     onPress={() => this.handleArticle(Gender.Neuter)}
                 >
                     <RX.Text style={styles.buttonText}>

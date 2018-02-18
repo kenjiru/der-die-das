@@ -14,7 +14,7 @@ const styles = {
         fontSize: 32,
         marginBottom: 12
     }),
-    roundButton: RX.Styles.createViewStyle({
+    roundedButton: RX.Styles.createViewStyle({
         margin: 16,
         borderRadius: 16,
         backgroundColor: '#7d88a9'
@@ -36,7 +36,7 @@ class MainPanel extends RX.Component<MainPanelProps, null> {
                         Hello World
                     </RX.Text>
 
-                    <RX.Button style={styles.roundButton} onPress={this.handleNavigate}>
+                    <RX.Button style={styles.roundedButton} onPress={this.handleNavigate}>
                         <RX.Text style={styles.buttonText}>
                             Go to next panel
                         </RX.Text>

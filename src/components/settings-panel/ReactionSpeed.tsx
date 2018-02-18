@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import * as React from "react";
 import { Component, ReactElement } from "react";
 import * as RX from "reactxp";
+import constants from "../../util/StyleConstants";
 import OptionButton from "./OptionButton";
 
 const styles = {
@@ -11,7 +12,7 @@ const styles = {
     }),
     buttonContainer: RX.Styles.createViewStyle({
         flexDirection: "row",
-        marginTop: 14
+        marginTop: constants.MEDIUM_SPACING
     })
 };
 
