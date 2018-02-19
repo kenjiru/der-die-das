@@ -73,9 +73,6 @@ export class PracticeStore {
         const pastEntries: IPracticeEntry[] = _.differenceBy(this.pastEntries, this.currentEntries,
             (entry: IPracticeEntry) => entry.word);
 
-        // const filteredPastEntries: IPracticeEntry[] = _.filter(pastEntries,
-        //     (entry: IPracticeEntry) => entry.lastDateAsked - Date.now() > PracticeStore.TWO_DAYS);
-
         const sortedPastEntries: IPracticeEntry[] = _.sortBy(pastEntries,
             (entry: IPracticeEntry) => entry.lastDateAsked);
 
