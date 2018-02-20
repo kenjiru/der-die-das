@@ -38,7 +38,7 @@ export class PracticeStore {
         } else {
             if (this.lastEntryWasLearned()) {
                 nextEntry = this.getNewOrPast();
-                this.removeFromCurrent(this.currentWord);
+                this.moveLastEntryToPast();
             } else {
                 nextEntry = this.getRandomCurrentEntry();
             }
@@ -50,15 +50,25 @@ export class PracticeStore {
     private getNewOrPast(): IPracticeEntry {
         let entry: IPracticeEntry = this.getNewEntry();
 
-        if (_.isNil(entry) === false) {
-            this.addToPastEntries(entry);
-        } else {
+        if (_.isNil(entry)) {
             entry = this.getRandomPastEntry();
+            this.movePastEntryToCurrent(entry);
+        } else {
+            this.addToCurrentEntries(entry);
         }
 
-        this.addToCurrentEntries(entry);
-
         return entry;
+    }
+
+    private moveLastEntryToPast(): void {
+        const currentEntry: IPracticeEntry = this.lastEntry;
+        this.pastEntries.push(currentEntry);
+        this.removeFromCurrent(currentEntry.word);
+    }
+
+    private movePastEntryToCurrent(entry: IPracticeEntry): void {
+        this.currentEntries.push(entry);
+        this.removeFromPast(entry.word);
     }
 
     private getRandomCurrentEntry(): IPracticeEntry {
@@ -130,7 +140,7 @@ export class PracticeStore {
     }
 
     private lastEntryWasLearned(): boolean {
-        return _.isNil(this.lastEntry) === false && this.lastEntry.consecutiveHit === 5;
+        return _.isNil(this.lastEntry) === false && this.lastEntry.consecutiveHit > 5;
     }
 
     private lastEntryWasHit(): boolean {
