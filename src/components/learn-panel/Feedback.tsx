@@ -23,6 +23,10 @@ const styles = {
     }),
     missBox: RX.Styles.createTextStyle({
         backgroundColor: constants.MISS_COLOR
+    }),
+    moreThankFiveText: RX.Styles.createTextStyle({
+        fontSize: constants.MEDIUM_TEXT,
+        fontWeight: "400"
     })
 };
 
@@ -30,9 +34,27 @@ class Feedback extends Component<IFeedbackProps> {
     public render(): ReactElement<HTMLElement> {
         return (
             <RX.View style={styles.feedbackContainer}>
-                {this.renderLastFive()}
+                {this.renderFeedback()}
             </RX.View>
         );
+    }
+
+    private renderFeedback(): ReactElement<any> | ReactElement<any>[] {
+        const {consecutiveHit} = this.props.entry;
+
+        if (consecutiveHit > 5) {
+            return this.renderMoreThanFive();
+        }
+
+        return this.renderLastFive();
+    }
+
+    private renderMoreThanFive(): ReactElement<any> {
+        return (
+            <RX.Text style={styles.moreThankFiveText}>
+                x{this.props.entry.consecutiveHit}
+            </RX.Text>
+        )
     }
 
     private renderLastFive(): ReactElement<any>[] {
