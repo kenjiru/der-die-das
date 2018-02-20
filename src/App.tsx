@@ -2,14 +2,13 @@ import { Provider } from "mobx-react/native";
 import * as RX from 'reactxp';
 import Navigator, { NavigatorDelegateSelector as DelegateSelector, Types } from 'reactxp-navigation';
 import LearnPanel from './components/learn-panel/LearnPanel';
-
-import MainPanel from './components/main-panel/MainPanel';
+import OverviewPanel from './components/overview-panel/OverviewPanel';
 import SettingsPanel from "./components/settings-panel/SettingsPanel";
 import practiceStore from "./model/PracticeStore";
 import settingsStore from "./model/SettingsStore";
 
 export enum NavigationRouteId {
-    MainPanel,
+    OverviewPanel,
     LearnPanel,
     SettingsPanel
 }
@@ -25,7 +24,7 @@ class App extends RX.Component<{}, null> {
 
     componentDidMount() {
         settingsStore.navigator.immediatelyResetRouteStack([{
-            routeId: NavigationRouteId.LearnPanel,
+            routeId: NavigationRouteId.OverviewPanel,
             sceneConfigType: Types.NavigatorSceneConfigType.Fade
         }]);
     }
@@ -49,8 +48,8 @@ class App extends RX.Component<{}, null> {
 
     private renderScene = (navigatorRoute: Types.NavigatorRoute) => {
         switch (navigatorRoute.routeId) {
-            case NavigationRouteId.MainPanel:
-                return <MainPanel/>;
+            case NavigationRouteId.OverviewPanel:
+                return <OverviewPanel/>;
 
             case NavigationRouteId.LearnPanel:
                 return <LearnPanel/>;
