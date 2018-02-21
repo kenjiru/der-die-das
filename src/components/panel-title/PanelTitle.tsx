@@ -13,8 +13,7 @@ import SettingsImage from "../../widgets/images/SettingsImage";
 const styles = {
     titleContainer: RX.Styles.createViewStyle({
         flexDirection: 'row',
-        justifyContent: 'center',
-        // alignItems: 'center'
+        justifyContent: 'center'
     }),
     titleText: RX.Styles.createTextStyle({
         fontSize: constants.MEDIUM_TEXT,
@@ -37,7 +36,7 @@ const styles = {
 @inject("settingsStore")
 @observer
 class PanelTitle extends Component<IPanelTitleProps> {
-    public defaultProps: IPanelTitleProps = {
+    public static defaultProps: IPanelTitleProps = {
         hasBack: true,
         hasSettings: true
     };
