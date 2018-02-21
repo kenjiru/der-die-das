@@ -43,8 +43,7 @@ class ReactionSpeed extends Component<IReactionSpeedProps> {
     }
 
     private getOptions(): IOption[] {
-        return _.reduce<number, IOption[]>(
-            _.range(ReactionSpeed.NUM_OPTIONS),
+        return _.reduce<number, IOption[]>(_.range(ReactionSpeed.NUM_OPTIONS),
             (result: IOption[], step: number, index: number): IOption[] => {
                 result.push({
                     label: this.getOptionLabel(step),
@@ -52,17 +51,18 @@ class ReactionSpeed extends Component<IReactionSpeedProps> {
                 });
 
                 return result;
-            }, []
+            },
+            []
         );
     }
 
     private getOptionLabel(step: number): string {
         if (step === 0) {
-            return "Slow";
+            return "Fast";
         }
 
         if (step === ReactionSpeed.NUM_OPTIONS - 1) {
-            return "Fast";
+            return "Slow";
         }
 
         return _.toString(step);
