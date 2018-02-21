@@ -1,6 +1,8 @@
 import * as _ from "lodash";
+import { observable } from "mobx";
 
 export class WordStore {
+    @observable
     public words: IWordEntry[] = [];
 
     public findWord(word: string): IWordEntry {

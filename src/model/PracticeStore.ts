@@ -9,6 +9,7 @@ export class PracticeStore {
     private static MAX_RANDOM: number = 20;
     public static MAX_CURRENT_WORDS: number = 3;
     public static TWO_DAYS: number = 1000 * 60 * 60 * 24 * 2;
+    private static GOOD_THRESHOLD: number = 30;
 
     @observable
     public pastEntries: IPracticeEntry[] = [];
@@ -18,6 +19,20 @@ export class PracticeStore {
     public currentWord: string;
     @observable
     public progressIndex: number = 0;
+
+    @computed
+    public get goodWords(): IPracticeEntry[] {
+        return _.filter(this.pastEntries, this.isGood);
+    }
+
+    @computed
+    public get knownWords(): IPracticeEntry[] {
+        return _.reject(this.pastEntries, this.isGood);
+    }
+
+    private isGood(entry: IPracticeEntry): boolean {
+        return entry.miss * 100 / entry.hit < PracticeStore.GOOD_THRESHOLD;
+    }
 
     @computed
     get lastEntry(): IPracticeEntry {

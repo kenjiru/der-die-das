@@ -22,7 +22,8 @@ const styleConstants: any = {
 
     BIG_TEXT: 24,
     MEDIUM_TEXT: 18,
-    NORMAL_TEXT: 14
+    NORMAL_TEXT: 16,
+    SMALL_TEXT: 12
 };
 
 export default styleConstants;

@@ -6,6 +6,7 @@ import OverviewPanel from './components/overview-panel/OverviewPanel';
 import SettingsPanel from "./components/settings-panel/SettingsPanel";
 import practiceStore from "./model/PracticeStore";
 import settingsStore from "./model/SettingsStore";
+import wordStore from "./model/WordStore";
 
 export enum NavigationRouteId {
     OverviewPanel,
@@ -31,7 +32,11 @@ class App extends RX.Component<{}, null> {
 
     render() {
         return (
-            <Provider practiceStore={practiceStore} settingsStore={settingsStore}>
+            <Provider
+                wordStore={wordStore}
+                practiceStore={practiceStore}
+                settingsStore={settingsStore}
+            >
                 <Navigator
                     ref={this.handleNavigatorRef}
                     renderScene={this.renderScene}

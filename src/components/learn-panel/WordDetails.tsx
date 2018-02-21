@@ -40,7 +40,7 @@ class WordDetails extends Component<IWordDetailsProps> {
 
         return (
             <RX.View style={styles.textContainer}>
-                <PanelTitle hasBack={false}>
+                <PanelTitle>
                     <RX.Text style={[styles.wordText, this.computeStyle()]}>
                         {this.renderArticle()} {practiceEntry.word}
                     </RX.Text>
