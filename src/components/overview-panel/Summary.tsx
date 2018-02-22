@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Component, ReactElement } from "react";
+import {Component, ReactElement} from "react";
 import * as RX from "reactxp";
 import style from "../../util/StyleConstants";
 
@@ -8,7 +8,7 @@ const styles = {
         marginBottom: style.NORMAL_SPACING
     }),
     text: RX.Styles.createTextStyle({
-        fontSize: style.MEDIUM_TEXT
+        fontSize: style.NORMAL_TEXT
     })
 };
 

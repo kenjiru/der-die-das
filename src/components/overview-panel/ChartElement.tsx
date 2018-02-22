@@ -1,15 +1,15 @@
 import * as _ from "lodash";
 import * as React from "react";
-import { Component, ReactElement } from "react";
+import {Component, ReactElement} from "react";
 import * as RX from "reactxp";
-import { StyleRuleSetOrArray } from "reactxp/dist/common/Types";
-import { StyleRuleSetRecursive, ViewStyleRuleSet } from "reactxp/src/common/Types";
+import {StyleRuleSetOrArray} from "reactxp/dist/common/Types";
+import {StyleRuleSetRecursive, ViewStyleRuleSet} from "reactxp/src/common/Types";
 import constants from "../../util/StyleConstants";
-import { overviewElementStyles, OverviewElementType } from "./OverviewPanel";
+import {overviewElementStyles, OverviewElementType} from "./OverviewPanel";
 
 const styles: StyleRuleSetOrArray<any> = {
     chartElement: RX.Styles.createViewStyle({
-        padding: constants.TINY_SPACING,
+        paddingVertical: constants.SMALL_SPACING,
         alignItems: "center"
     }),
     chartText: RX.Styles.createTextStyle({

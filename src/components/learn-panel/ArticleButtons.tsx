@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Component, ReactElement } from "react";
+import {Component, ReactElement} from "react";
 import * as RX from 'reactxp';
-import { Gender } from "../../model/WordStore";
+import {Gender} from "../../model/WordStore";
 import constants from "../../util/StyleConstants";
 
 const styles = {
@@ -26,6 +26,7 @@ const styles = {
     }),
     buttonText: RX.Styles.createTextStyle({
         fontSize: constants.MEDIUM_TEXT,
+        fontWeight: "400",
         marginVertical: constants.SMALL_SPACING,
         marginHorizontal: constants.NORMAL_SPACING,
         color: constants.WHITE

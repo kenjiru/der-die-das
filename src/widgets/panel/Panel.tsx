@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Component, ReactElement } from "react";
+import {Component, ReactElement} from "react";
 import * as RX from "reactxp";
-import { StyleRuleSetRecursive, ViewStyleRuleSet } from "reactxp/src/common/Types";
+import {StyleRuleSetRecursive, ViewStyleRuleSet} from "reactxp/src/common/Types";
 import constants from "../../util/StyleConstants";
 
 const styles = {
     container: RX.Styles.createViewStyle({
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: constants.MEDIUM_SPACING
+        flexDirection: "column",
+        justifyContent: "space-between",
+        paddingBottom: constants.MEDIUM_SPACING
     })
 };
 

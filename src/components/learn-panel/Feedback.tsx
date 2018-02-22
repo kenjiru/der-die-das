@@ -1,8 +1,8 @@
 import * as _ from "lodash";
 import * as React from "react";
-import { Component, ReactElement } from "react";
+import {Component, ReactElement} from "react";
 import * as RX from 'reactxp';
-import { IPracticeEntry } from "../../model/PracticeStore";
+import {IPracticeEntry} from "../../model/PracticeStore";
 import constants from "../../util/StyleConstants";
 
 const styles = {
@@ -18,6 +18,9 @@ const styles = {
         height: constants.SMALL_ICON,
         margin: constants.TINY_SPACING
     }),
+    emptyBox: RX.Styles.createTextStyle({
+        backgroundColor: constants.LIGHT_GRAY
+    }),
     hitBox: RX.Styles.createTextStyle({
         backgroundColor: constants.HIT_COLOR
     }),
@@ -26,7 +29,7 @@ const styles = {
     }),
     moreThankFiveText: RX.Styles.createTextStyle({
         fontSize: constants.MEDIUM_TEXT,
-        fontWeight: "400"
+        fontWeight: "bold"
     })
 };
 

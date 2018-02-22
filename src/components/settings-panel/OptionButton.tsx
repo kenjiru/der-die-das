@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Component, ReactElement } from "react";
+import {Component, ReactElement} from "react";
 import * as RX from "reactxp";
-import { StyleRuleSetRecursive, ViewStyleRuleSet } from "reactxp/src/common/Types";
+import {StyleRuleSetRecursive, ViewStyleRuleSet} from "reactxp/src/common/Types";
 import constants from "../../util/StyleConstants";
 
 const styles = {
@@ -9,8 +9,8 @@ const styles = {
         flex: 1
     }),
     button: RX.Styles.createTextStyle({
-        paddingVertical: 4,
-        paddingHorizontal: 10,
+        paddingVertical: constants.SMALL_SPACING,
+        paddingHorizontal: constants.NORMAL_SPACING,
         backgroundColor: constants.WHITE,
         borderColor: constants.LIGHT_GRAY,
         borderStyle: 'solid',
@@ -31,7 +31,8 @@ const styles = {
         borderRightWidth: 1
     }),
     label: RX.Styles.createTextStyle({
-        color: constants.LIGHT_BLUE
+        color: constants.LIGHT_BLUE,
+        fontSize: constants.NORMAL_TEXT
     }),
     labelSelected: RX.Styles.createTextStyle({
         color: constants.WHITE

@@ -1,11 +1,11 @@
 import * as _ from "lodash";
 import * as React from "react";
-import { Component, ReactElement } from "react";
+import {Component, ReactElement} from "react";
 import * as RX from "reactxp";
-import { ViewOnLayoutEvent } from "reactxp/src/common/Types";
+import {ViewOnLayoutEvent} from "reactxp/src/common/Types";
 import constants from "../../util/StyleConstants";
 import ChartElement from "./ChartElement";
-import { OverviewElementType } from "./OverviewPanel";
+import {OverviewElementType} from "./OverviewPanel";
 
 const styles = {
     container: RX.Styles.createViewStyle({
@@ -15,12 +15,6 @@ const styles = {
     chartContainer: RX.Styles.createViewStyle({
         backgroundColor: constants.LIGHT_GRAY,
         marginBottom: 1
-    }),
-    legendContainer: RX.Styles.createViewStyle({}),
-    legendBox: RX.Styles.createViewStyle({
-        width: constants.SMALL_ICON,
-        height: constants.SMALL_ICON,
-        backgroundColor: constants.DER_COLOR
     })
 };
 
