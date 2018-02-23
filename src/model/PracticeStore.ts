@@ -1,7 +1,7 @@
 import * as _ from "lodash";
-import { action, computed, observable, useStrict } from "mobx";
+import {action, computed, observable, useStrict} from "mobx";
 import NumberUtil from "../util/NumberUtil";
-import wordStore, { Gender, IWordEntry } from "./WordStore";
+import wordStore, {Gender, IWordEntry} from "./WordStore";
 
 useStrict(true);
 
@@ -42,6 +42,11 @@ export class PracticeStore {
 
         return _.find(this.currentEntries,
             (entry: IPracticeEntry) => entry.word === this.currentWord);
+    }
+
+    @action
+    public toggleLastEntryFavourite(): void {
+        this.lastEntry.isFavourite = !this.lastEntry.isFavourite;
     }
 
     @action
@@ -132,7 +137,8 @@ export class PracticeStore {
             hit: 0,
             miss: 0,
             consecutiveHit: 0,
-            lastFive: []
+            lastFive: [],
+            isFavourite: false
         }
     }
 
@@ -208,6 +214,7 @@ export interface IPracticeEntry {
     miss: number;
     lastFive: boolean[];
     lastDateAsked?: number;
+    isFavourite?: boolean;
 }
 
 const practiceStore: PracticeStore = new PracticeStore();
