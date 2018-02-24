@@ -1,18 +1,13 @@
 import * as _ from "lodash";
-import { inject, observer } from "mobx-react/native";
+import {inject, observer} from "mobx-react/native";
 import * as RX from 'reactxp';
-import { IPracticeEntry, PracticeStore } from "../../model/PracticeStore";
-import { SettingsStore } from "../../model/SettingsStore";
-import { default as wordStore, Gender, IWordEntry } from "../../model/WordStore";
+import {IPracticeEntry, PracticeStore} from "../../model/PracticeStore";
+import {SettingsStore} from "../../model/SettingsStore";
+import {default as wordStore, Gender, IWordEntry} from "../../model/WordStore";
 import Panel from "../../widgets/panel/Panel";
+import ActionButtons from "./ActionButtons";
 import ArticleButtons from "./ArticleButtons";
 import WordDetails from "./WordDetails";
-
-const styles = {
-    middleContainer: RX.Styles.createViewStyle({
-        flex: 2
-    })
-};
 
 @inject("practiceStore")
 @inject("settingsStore")
@@ -41,8 +36,7 @@ class LearnPanel extends RX.Component<ILearnPanelProps, ILearnPanelState> {
                     selectedArticle={this.state.selectedArticle}
                 />
 
-                <RX.View style={styles.middleContainer}>
-                </RX.View>
+                <ActionButtons/>
 
                 <ArticleButtons onArticle={this.handleArticle}/>
             </Panel>
