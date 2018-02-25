@@ -1,23 +1,26 @@
-import { Provider } from "mobx-react/native";
+import {Provider} from "mobx-react/native";
 import * as RX from 'reactxp';
-import Navigator, { NavigatorDelegateSelector as DelegateSelector, Types } from 'reactxp-navigation';
+import Navigator, {NavigatorDelegateSelector as DelegateSelector, Types} from 'reactxp-navigation';
 import LearnPanel from './components/learn-panel/LearnPanel';
 import OverviewPanel from './components/overview-panel/OverviewPanel';
 import SettingsPanel from "./components/settings-panel/SettingsPanel";
+import WordsPanel from "./components/words-panel/WordsPanel";
 import practiceStore from "./model/PracticeStore";
 import settingsStore from "./model/SettingsStore";
 import wordStore from "./model/WordStore";
+import constants from "./util/StyleConstants";
 
 export enum NavigationRouteId {
     OverviewPanel,
     LearnPanel,
-    SettingsPanel
+    SettingsPanel,
+    WordsPanel
 }
 
 const styles = {
     // Standard navigator style should be an object. So we have to disable caching here.
     navCardStyle: RX.Styles.createViewStyle({
-        backgroundColor: '#f5fcff'
+        backgroundColor: constants.WHITE
     }, false)
 };
 
@@ -61,6 +64,9 @@ class App extends RX.Component<{}, null> {
 
             case NavigationRouteId.SettingsPanel:
                 return <SettingsPanel/>;
+
+            case NavigationRouteId.WordsPanel:
+                return <WordsPanel/>;
         }
 
         return null;
