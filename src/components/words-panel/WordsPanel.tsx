@@ -3,9 +3,10 @@ import * as React from "react";
 import {Component, ReactElement} from "react";
 import * as RX from "reactxp";
 import {PracticeStore} from "../../model/PracticeStore";
-import wordStore, {WordStore} from "../../model/WordStore";
+import wordStore, {IWordEntry, WordStore} from "../../model/WordStore";
 import PanelTitle from "../panel-title/PanelTitle";
 import Panel from "../../widgets/panel/Panel";
+import List from "./list/List";
 import Menu, {MenuItemType} from "./menu/Menu";
 
 @inject("wordStore")
@@ -29,9 +30,13 @@ class WordsPanel extends Component<IWordsPanelProps, IWordsPanelState> {
                 />
                 <Menu
                     availableItems={this.getAvailableItems()}
-                    numWords={10}
+                    numWords={this.getNumWords()}
                     selectedItem={this.state.selectedItem}
                     onChange={this.handleMenuChange}
+                />
+                <List
+                    words={this.getWordList()}
+                    listType={this.state.selectedItem}
                 />
             </Panel>
         );
@@ -51,6 +56,14 @@ class WordsPanel extends Component<IWordsPanelProps, IWordsPanelState> {
             MenuItemType.Known,
             MenuItemType.Learning
         ];
+    }
+
+    private getNumWords(): number {
+        return this.props.wordStore.words.length
+    }
+
+    private getWordList(): IWordEntry[] {
+        return this.props.wordStore.words;
     }
 }
 
