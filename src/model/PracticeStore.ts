@@ -7,9 +7,10 @@ useStrict(true);
 
 export class PracticeStore {
     private static MAX_RANDOM: number = 20;
-    public static MAX_CURRENT_WORDS: number = 3;
+    public static MAX_CURRENT_WORDS: number = 2;
     public static TWO_DAYS: number = 1000 * 60 * 60 * 24 * 2;
-    private static GOOD_THRESHOLD: number = 30;
+    private static GOOD_THRESHOLD: number = 10;
+    private static HOT_THRESHOLD: number = 40;
 
     @observable
     public pastEntries: IPracticeEntry[] = [];
@@ -21,17 +22,50 @@ export class PracticeStore {
     public progressIndex: number = 0;
 
     @computed
-    public get goodWords(): IPracticeEntry[] {
-        return _.filter(this.pastEntries, this.isGood);
+    public get favouriteWords(): IWordEntry[] {
+        return this.getWords(this.isFavourite);
     }
 
     @computed
-    public get knownWords(): IPracticeEntry[] {
-        return _.reject(this.pastEntries, this.isGood);
+    public get goodWords(): IWordEntry[] {
+        return this.getWords(this.isGood);
+    }
+
+    @computed
+    public get knownWords(): IWordEntry[] {
+        return this.getWords(_.negate(this.isGood));
+    }
+
+    @computed
+    public get hotWords(): IWordEntry[] {
+        return this.getWords(this.isHot);
+    }
+
+    @computed
+    public get learningWords(): IWordEntry[] {
+        return _.map(this.currentEntries, (practiceEntry: IPracticeEntry) =>
+            wordStore.findWord(practiceEntry.word)
+        );
+    }
+
+    private getWords(filterFunction: (practice: IPracticeEntry) => boolean): IWordEntry[] {
+        const filteredPractice: IPracticeEntry[] = _.filter(this.pastEntries, filterFunction);
+
+        return _.map(filteredPractice, (practiceEntry: IPracticeEntry) =>
+            wordStore.findWord(practiceEntry.word)
+        );
     }
 
     private isGood(entry: IPracticeEntry): boolean {
         return entry.miss * 100 / entry.hit < PracticeStore.GOOD_THRESHOLD;
+    }
+
+    private isHot(entry: IPracticeEntry): boolean {
+        return entry.miss * 100 / entry.hit > PracticeStore.HOT_THRESHOLD;
+    }
+
+    private isFavourite(entry: IPracticeEntry): boolean {
+        return entry.isFavourite === true;
     }
 
     @computed

@@ -59,11 +59,35 @@ class WordsPanel extends Component<IWordsPanelProps, IWordsPanelState> {
     }
 
     private getNumWords(): number {
-        return this.props.wordStore.words.length
+        return this.getWordList().length;
     }
 
     private getWordList(): IWordEntry[] {
-        return this.props.wordStore.words;
+        return this.getWordsOfType(this.state.selectedItem);
+    }
+
+    private getWordsOfType(selectedItem: MenuItemType): IWordEntry[] {
+        const {practiceStore} = this.props;
+
+        switch (selectedItem) {
+            case MenuItemType.Favourites:
+                return practiceStore.favouriteWords;
+
+            case MenuItemType.Hot:
+                return practiceStore.hotWords;
+
+            case MenuItemType.Known:
+                return practiceStore.knownWords;
+
+            case MenuItemType.Good:
+                return practiceStore.goodWords;
+
+            case MenuItemType.Learning:
+                return practiceStore.learningWords;
+
+            default:
+                return [];
+        }
     }
 }
 
