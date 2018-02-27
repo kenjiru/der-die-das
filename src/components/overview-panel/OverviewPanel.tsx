@@ -9,7 +9,7 @@ import PanelTitle from "../../widgets/panel-title/PanelTitle";
 import Panel from "../../widgets/panel/Panel";
 import Chart from "./Chart";
 import Legend from "./Legend";
-import OverviewButtons from "./OverviewButtons";
+import OverviewButtons from "./NavigationButtons";
 import Summary from "./Summary";
 
 export enum OverviewElementType {
