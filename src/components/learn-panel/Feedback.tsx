@@ -43,13 +43,25 @@ class Feedback extends Component<IFeedbackProps> {
     }
 
     private renderFeedback(): ReactElement<any> | ReactElement<any>[] {
-        const {consecutiveHit} = this.props.entry;
+        const {hit, miss, consecutiveHit} = this.props.entry;
+
+        if (hit + miss === 0) {
+            return this.renderEmpty();
+        }
 
         if (consecutiveHit > 5) {
             return this.renderMoreThanFive();
         }
 
         return this.renderLastFive();
+    }
+
+    private renderEmpty(): ReactElement<any> {
+        return (
+            <RX.View
+                style={[styles.resBox, styles.emptyBox]}
+            />
+        );
     }
 
     private renderMoreThanFive(): ReactElement<any> {
