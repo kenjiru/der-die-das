@@ -4,7 +4,7 @@ import {Component, ReactElement} from "react";
 import * as RX from "reactxp";
 import {PracticeStore} from "../../model/PracticeStore";
 import wordStore, {IWordEntry, WordStore} from "../../model/WordStore";
-import PanelTitle from "../panel-title/PanelTitle";
+import PanelTitle from "../../widgets/panel-title/PanelTitle";
 import Panel from "../../widgets/panel/Panel";
 import List from "./list/List";
 import Menu, {MenuItemType} from "./menu/Menu";

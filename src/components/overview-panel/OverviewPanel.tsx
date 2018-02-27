@@ -1,11 +1,12 @@
-import { inject, observer } from "mobx-react/native";
-import { ReactElement } from "react";
+import {inject, observer} from "mobx-react/native";
+import {ReactElement} from "react";
 import * as RX from 'reactxp';
-import { PracticeStore } from "../../model/PracticeStore";
-import { WordStore } from "../../model/WordStore";
+import {PracticeStore} from "../../model/PracticeStore";
+import {WordStore} from "../../model/WordStore";
 import constants from "../../util/StyleConstants";
+import PanelBody from "../../widgets/panel-body/PanelBody";
+import PanelTitle from "../../widgets/panel-title/PanelTitle";
 import Panel from "../../widgets/panel/Panel";
-import PanelTitle from "../panel-title/PanelTitle";
 import Chart from "./Chart";
 import Legend from "./Legend";
 import OverviewButtons from "./OverviewButtons";
@@ -16,12 +17,6 @@ export enum OverviewElementType {
     Known = "Known",
     Learning = "Learning"
 }
-
-const styles = {
-    contentContainer: RX.Styles.createViewStyle({
-        flexGrow: 2
-    })
-};
 
 export const overviewElementStyles = {
     [OverviewElementType.Good]: RX.Styles.createViewStyle({
@@ -53,7 +48,7 @@ class OverviewPanel extends RX.Component<MainPanelProps> {
                     hasBack={false}
                 />
 
-                <RX.View style={styles.contentContainer}>
+                <PanelBody>
                     <Summary learned={good + known} total={total}/>
                     <Chart
                         total={total}
@@ -63,7 +58,7 @@ class OverviewPanel extends RX.Component<MainPanelProps> {
                     />
                     <Legend/>
                     <OverviewButtons/>
-                </RX.View>
+                </PanelBody>
             </Panel>
         );
     }

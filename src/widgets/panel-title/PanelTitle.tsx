@@ -1,35 +1,35 @@
 import * as _ from "lodash";
-import { inject, observer } from "mobx-react/native";
+import {inject, observer} from "mobx-react/native";
 import * as React from "react";
-import { Component, ReactElement, ReactNode } from "react";
+import {Component, ReactElement, ReactNode} from "react";
 import * as RX from "reactxp";
-import { Types } from "reactxp-navigation";
-import { NavigationRouteId } from "../../App";
-import { SettingsStore } from "../../model/SettingsStore";
+import {Types} from "reactxp-navigation";
+import {NavigationRouteId} from "../../App";
+import {SettingsStore} from "../../model/SettingsStore";
 import constants from "../../util/StyleConstants";
 import BackImage from "../../widgets/images/BackImage";
 import SettingsImage from "../../widgets/images/SettingsImage";
 
 const styles = {
     titleContainer: RX.Styles.createViewStyle({
-        flexDirection: 'row',
-        justifyContent: 'center'
+        paddingVertical: constants.MEDIUM_SPACING,
+        borderStyle: "solid",
+        borderColor: constants.LIGHT_GRAY,
+        borderBottomWidth: 1
     }),
+    positioningContainer: RX.Styles.createViewStyle({}),
     titleText: RX.Styles.createTextStyle({
         fontSize: constants.MEDIUM_TEXT,
-        fontWeight: 'bold',
+        fontWeight: "500",
         textAlign: 'center',
-        margin: constants.SMALL_SPACING
     }),
     backButton: RX.Styles.createTextStyle({
         position: 'absolute',
-        top: constants.SMALL_SPACING,
-        left: constants.SMALL_SPACING
+        left: constants.MEDIUM_SPACING
     }),
     settingsButton: RX.Styles.createTextStyle({
         position: 'absolute',
-        top: constants.SMALL_SPACING,
-        right: constants.SMALL_SPACING
+        right: constants.MEDIUM_SPACING
     })
 };
 
@@ -44,9 +44,11 @@ class PanelTitle extends Component<IPanelTitleProps> {
     public render(): ReactElement<HTMLElement> {
         return (
             <RX.View style={styles.titleContainer}>
-                {this.renderTitle()}
-                {this.renderBackButton()}
-                {this.renderSettingsButton()}
+                <RX.View style={styles.positioningContainer}>
+                    {this.renderTitle()}
+                    {this.renderBackButton()}
+                    {this.renderSettingsButton()}
+                </RX.View>
             </RX.View>
         );
     }
